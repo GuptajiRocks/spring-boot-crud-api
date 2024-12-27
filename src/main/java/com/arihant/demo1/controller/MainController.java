@@ -27,7 +27,7 @@ public class MainController {
             List<Stock> stocks = stockInterface.findAll();
             return ResponseEntity.ok(stocks);
         }
-        return null;
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/search")
