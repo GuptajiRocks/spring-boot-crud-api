@@ -1,13 +1,35 @@
 package com.arihant.demo1.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.arihant.demo1.model.Stock;
+import com.arihant.demo1.repository.StockInterface;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
 public class MainController {
-    @GetMapping("/")
-    public String index() {
-        return "index";
+
+    @Autowired
+    private StockInterface stockInterface;
+
+    @PostMapping("/add")
+    public ResponseEntity<Stock> addStock(@RequestBody Stock stock) {
+        Stock addedStock = stockInterface.save(stock);
+        return ResponseEntity.ok(addedStock);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Stock>> getAllStocks() {
+        List<Stock> stocks = stockInterface.findAll();
+        return ResponseEntity.ok(stocks);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Stock>> getStocksByName(@RequestParam("name") String name) {
+        List<Stock> stocks = stockInterface.findByNameContaining(name);
+        return ResponseEntity.ok(stocks);
+    }
 }
