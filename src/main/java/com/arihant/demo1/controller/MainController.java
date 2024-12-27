@@ -30,6 +30,12 @@ public class MainController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<Stock> deleteStock(@RequestBody Stock stock) {
+        stockInterface.delete(stock);
+        return ResponseEntity.ok(stock);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Stock>> getStocksByName(@RequestParam("name") String name) {
         List<Stock> stocks = stockInterface.findByNameContaining(name);
