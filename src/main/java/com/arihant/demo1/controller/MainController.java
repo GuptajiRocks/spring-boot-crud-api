@@ -22,9 +22,12 @@ public class MainController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Stock>> getAllStocks() {
-        List<Stock> stocks = stockInterface.findAll();
-        return ResponseEntity.ok(stocks);
+    public ResponseEntity<List<Stock>> getAllStocks(@RequestParam(value = "name", required = true) String name) {
+        if (name.equals("jesus@12")) {
+            List<Stock> stocks = stockInterface.findAll();
+            return ResponseEntity.ok(stocks);
+        }
+        return null;
     }
 
     @GetMapping("/search")
