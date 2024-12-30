@@ -49,4 +49,14 @@ public class MainController {
         List<Stock> stock = stockInterface.findById(id);
         return ResponseEntity.ok(stock);
     }
+
+    @GetMapping("/sorted")
+    public ResponseEntity<List<Stock>> getStocksByNameAsc(@RequestHeader(value = "name") String name) {
+        if (name.equals("waah")) {
+            List<Stock> stocks = stockInterface.findAll();
+            stocks.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            return ResponseEntity.ok(stocks);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
