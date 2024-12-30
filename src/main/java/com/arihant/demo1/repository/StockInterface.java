@@ -9,4 +9,6 @@ public interface StockInterface extends JpaRepository<Stock, Integer> {
     List<Stock> findByNameContaining(String name);
 
     List<Stock> findById(long id);
+
+    List<Stock> deleteStockByName(String name);
 }

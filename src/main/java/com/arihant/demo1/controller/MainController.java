@@ -32,9 +32,10 @@ public class MainController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Stock> deleteStock(@RequestBody Stock stock) {
-        stockInterface.delete(stock);
-        return ResponseEntity.ok(stock);
+    public ResponseEntity<List<Stock>> deleteStock(@RequestParam(value = "name") String name) {
+        List<Stock> deletedStock = stockInterface.deleteStockByName(name);
+        List<Stock> newList = stockInterface.findAll();
+        return ResponseEntity.ok(newList);
     }
 
     @GetMapping("/search")
