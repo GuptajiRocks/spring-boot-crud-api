@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +23,7 @@ public class MainController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Stock>> getAllStocks(@RequestParam(value = "name", required = true) String name) {
+    public ResponseEntity<List<Stock>> getAllStocks(@RequestParam(value = "name", required = false) String name) {
         if (name.equals("jesus@12")) {
             List<Stock> stocks = stockInterface.findAll();
             return ResponseEntity.ok(stocks);
@@ -37,8 +38,14 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Stock>> getStocksByName(@RequestParam("name") String name) {
+    public ResponseEntity<List<Stock>> getStocksByName(@RequestParam(value = "name", required = true) String name) {
         List<Stock> stocks = stockInterface.findByNameContaining(name);
         return ResponseEntity.ok(stocks);
+    }
+
+    @GetMapping("/search/{id}")
+    public ResponseEntity<List<Stock>> getStockById(@PathVariable(value = "id") Long id) {
+        List<Stock> stock = stockInterface.findById(id);
+        return ResponseEntity.ok(stock);
     }
 }
