@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -76,15 +75,12 @@ public class MainController {
     }
 
     @PostMapping("/addValidmac")
-    public String addValidMac() {
+    public ResponseEntity<MAC> addValidMac() {
         String toBeaddedMac = macAddressService.getMacAddress();
         MAC mac = new MAC(toBeaddedMac);
-        try {
-            macInterface.save(mac);
-            return "MAC: "+toBeaddedMac+"added successfully!!";
-        } catch (Exception e) {
-            return "MAC: "+toBeaddedMac+"added failed!!";
-        }
+        // return ResponseEntity.ok(toBeaddedMac);
+        macInterface.save(mac);
+        return ResponseEntity.ok(mac);
     }
 
     @GetMapping("/approvedMac")
