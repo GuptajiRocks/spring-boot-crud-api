@@ -2,6 +2,7 @@ package com.arihant.demo1.controller;
 
 import com.arihant.demo1.model.Stock;
 import com.arihant.demo1.repository.StockInterface;
+import com.arihant.demo1.service.MacAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class MainController {
 
     @Autowired
     private StockInterface stockInterface;
+
+    @Autowired
+    private MacAddressService macAddressService;
 
     @PostMapping("/add")
     public ResponseEntity<Stock> addStock(@RequestBody Stock stock) {
@@ -58,5 +62,16 @@ public class MainController {
             return ResponseEntity.ok(stocks);
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/mac")
+    public ResponseEntity<String> getMac() {
+        String mac = macAddressService.getMacAddress();
+        return ResponseEntity.ok(mac);
+    }
+
+    @PostMapping("/addValidmac")
+    public ResponseEntity<String> addValidMac(@RequestParam(value = "name") String name) {
+        return null;
     }
 }
