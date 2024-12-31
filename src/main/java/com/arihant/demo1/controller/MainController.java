@@ -1,6 +1,8 @@
 package com.arihant.demo1.controller;
 
+import com.arihant.demo1.model.MAC;
 import com.arihant.demo1.model.Stock;
+import com.arihant.demo1.repository.MacInterface;
 import com.arihant.demo1.repository.StockInterface;
 import com.arihant.demo1.service.MacAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class MainController {
 
     @Autowired
     private MacAddressService macAddressService;
+
+    @Autowired
+    private MacInterface macInterface;
 
     @PostMapping("/add")
     public ResponseEntity<Stock> addStock(@RequestBody Stock stock) {
@@ -66,12 +71,25 @@ public class MainController {
 
     @GetMapping("/mac")
     public ResponseEntity<String> getMac() {
-        String mac = macAddressService.getMacAddress();
-        return ResponseEntity.ok(mac);
+        String macAdd = macAddressService.getMacAddress();
+        return ResponseEntity.ok(macAdd);
     }
 
     @PostMapping("/addValidmac")
-    public ResponseEntity<String> addValidMac(@RequestParam(value = "name") String name) {
-        return null;
+    public String addValidMac() {
+        String toBeaddedMac = macAddressService.getMacAddress();
+        MAC mac = new MAC(toBeaddedMac);
+        try {
+            macInterface.save(mac);
+            return "MAC: "+toBeaddedMac+"added successfully!!";
+        } catch (Exception e) {
+            return "MAC: "+toBeaddedMac+"added failed!!";
+        }
+    }
+
+    @GetMapping("/approvedMac")
+    public ResponseEntity<List<MAC>> getApprovedMac() {
+        List<MAC> mac = macInterface.findAll();
+        return ResponseEntity.ok(mac);
     }
 }
