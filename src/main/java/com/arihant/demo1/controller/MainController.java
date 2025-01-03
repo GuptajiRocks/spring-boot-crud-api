@@ -39,9 +39,9 @@ public class MainController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<List<Stock>> deleteStock(@RequestParam(value = "name") String name) {
-        List<Stock> deletedStock = stockInterface.deleteStockByName(name);
+        stockInterface.deleteStockByName(name);
         List<Stock> newList = stockInterface.findAll();
         return ResponseEntity.ok(newList);
     }
