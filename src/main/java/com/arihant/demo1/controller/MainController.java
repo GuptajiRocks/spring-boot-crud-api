@@ -31,10 +31,10 @@ public class MainController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Stock>> getAllStocks(@RequestParam(value = "name", required = false) String name) {
-        if (name.equals("jesus@12")) {
-            List<Stock> stocks = stockInterface.findAll();
-            return ResponseEntity.ok(stocks);
+    public ResponseEntity<List<Stock>> getAllStocks() {
+        if (macInterface.existsBymacadd(macAddressService.getMacAddress())) {
+            List<Stock> allStocks = stockInterface.findAll();
+            return ResponseEntity.ok(allStocks);
         }
         return ResponseEntity.badRequest().build();
     }
