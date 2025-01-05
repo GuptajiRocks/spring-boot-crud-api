@@ -74,17 +74,6 @@ public class MainController {
         return ResponseEntity.ok(macAdd);
     }
 
-    @PostMapping("/addValidmac")
-    public ResponseEntity<MAC> addValidMac() {
-        String toBeaddedMac = macAddressService.getMacAddress();
-
-        if (macInterface.existsBymacadd(toBeaddedMac)) {
-            return ResponseEntity.badRequest().body(new MAC("MAC Address Already exists in the DB"));
-        }
-        MAC mac = new MAC(toBeaddedMac);
-        macInterface.save(mac);
-        return ResponseEntity.ok(mac);
-    }
 
     @GetMapping("/approvedMac")
     public ResponseEntity<List<MAC>> getApprovedMac() {
