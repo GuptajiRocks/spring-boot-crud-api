@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -62,7 +63,7 @@ public class MainController {
     public ResponseEntity<List<Stock>> getStocksByNameAsc(@RequestHeader(value = "name") String name) {
         if (name.equals("waah")) {
             List<Stock> stocks = stockInterface.findAll();
-            stocks.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            stocks.sort(Comparator.comparing(Stock::getName));
             return ResponseEntity.ok(stocks);
         }
         return ResponseEntity.badRequest().build();
